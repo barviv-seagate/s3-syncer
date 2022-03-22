@@ -1,31 +1,35 @@
-from chalice import Chalice
 import os
 import boto3
-from botocore.client import Config
+from chalice import Chalice
+
+LCAccessKey = os.getenv('AWS_ACCESS_KEY_ID', 'TEST_KEY_ID')
+LCSecretKey = os.getenv('AWS_ACCESS_KEY_SECRET', 'TEST_KEY_SECRET')
+LCRegion = os.getenv('AWS_DEFAULT_REGION', 'TEST_REGION')
+LCEndpointURL = os.getenv('ENDPOINT', 'TEST_ENDPOINT_URL')
 
 # Lyve Cloud
-s3_resource = boto3.resource('s3',
-    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID', 'TEST_KEY_ID'),
-    aws_secret_access_key=os.getenv('AWS_ACCESS_KEY_SECRET', 'TEST_KEY_SECRET'),
-    region_name=os.getenv('AWS_DEFAULT_REGION', 'TEST_REGION'),
-    config=Config(signature_version='s3v4'),
-    endpoint_url='TEST_ENDPOINT_URL'
+s3_resource = boto3.resource(
+    's3',
+    aws_access_key_id=LCAccessKey,
+    aws_secret_access_key=LCSecretKey,
+    region_name=LCRegion,
+    endpoint_url=LCEndpointURL
 )
 
 # Lyve Cloud
-s3_client = boto3.client('s3',
-    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID', 'TEST_KEY_ID'),
-    aws_secret_access_key=os.getenv('AWS_ACCESS_KEY_SECRET', 'TEST_KEY_SECRET'),
-    region_name=os.getenv('AWS_DEFAULT_REGION', 'TEST_REGION'),
-    config=Config(signature_version='s3v4'),
-    endpoint_url='TEST_ENDPOINT_URL'
+s3_client = boto3.client(
+    's3',
+    aws_access_key_id=LCAccessKey,
+    aws_secret_access_key=LCSecretKey,
+    region_name=LCRegion,
+    endpoint_url=LCEndpointURL
 )
 
+source_prefix = ''
 sourceS3 = boto3.resource('s3')
 app = Chalice(app_name='syncer', debug=True)
 source_bucket = os.getenv('SOURCE_BUCKET', 'aws-bucket')
 target_bucket = os.getenv('TARGET_BUCKET', 'lyvecloud-bucket')
-source_prefix = ''
 
 
 @app.on_s3_event(bucket=source_bucket, prefix=source_prefix, events=['s3:ObjectCreated:*'])
