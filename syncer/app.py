@@ -1,10 +1,18 @@
 import os
-import utils
+import json
 import boto3
 from chalice import Chalice
 
+
+def get_config(file_path):
+    with open(file_path, 'r') as file:
+        content_json = json.loads(file.read())
+
+    return content_json
+
+
 source_prefix = ''
-config = utils.get_config("../config.json")
+config = get_config("../config.json")
 source_bucket = config["aws"]["bucket_name"] #os.getenv('SOURCE_BUCKET', 'aws-bucket')
 target_bucket = config["lyvecloud"]["bucket_name"] #os.getenv('TARGET_BUCKET', 'lyvecloud-bucket')
 LCAccessKey = config["lyvecloud"]["aws_access_key_id"] #os.getenv('AWS_ACCESS_KEY_ID', 'TEST_KEY_ID')
