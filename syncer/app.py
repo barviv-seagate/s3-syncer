@@ -20,6 +20,13 @@ LCSecretKey = config["lyvecloud"]["aws_secret_access_key"] #os.getenv('AWS_ACCES
 LCRegion = config["lyvecloud"]["region_name"] #os.getenv('AWS_DEFAULT_REGION', 'TEST_REGION')
 LCEndpointURL = config["lyvecloud"]["endpoint_url"] #os.getenv('ENDPOINT', 'TEST_ENDPOINT_URL')
 
+print(config)
+print(source_bucket)
+print(target_bucket)
+print(LCAccessKey)
+print(LCSecretKey)
+print(LCRegion)
+print(LCEndpointURL)
 # AWS
 sourceS3 = boto3.resource('s3')
 app = Chalice(app_name='syncer', debug=True)

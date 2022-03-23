@@ -1,15 +1,15 @@
 {
   "lyvecloud": {
-    "aws_access_key_id": "Y0M3MJ14CSWJKXN4",
-    "aws_secret_access_key":"NSGSDRBF1QK2XFO0G34PNZZYFCOQVNLB",
+    "aws_access_key_id": "",
+    "aws_secret_access_key":"",
     "region_name": "us-west-1",
     "endpoint_url": "https://s3.us-west-1.lyvecloud.seagate.com",
     "bucket_name": "lc-syncer6"
 
   },
   "aws": {
-    "aws_access_key_id": "AKIAV7OCSMHJYVYY77RT",
-    "aws_secret_access_key":"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",
+    "aws_access_key_id": "",
+    "aws_secret_access_key":"",
     "region_name": "us-west-1",
     "bucket_name": "aws-syncer6",
     "target_folder": "./data"
