@@ -12,7 +12,7 @@ def get_config(file_path):
 
 
 source_prefix = ''
-config = get_config("../config.json")
+config = get_config("config.json")
 source_bucket = config["aws"]["bucket_name"] #os.getenv('SOURCE_BUCKET', 'aws-bucket')
 target_bucket = config["lyvecloud"]["bucket_name"] #os.getenv('TARGET_BUCKET', 'lyvecloud-bucket')
 LCAccessKey = config["lyvecloud"]["aws_access_key_id"] #os.getenv('AWS_ACCESS_KEY_ID', 'TEST_KEY_ID')
