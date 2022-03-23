@@ -1,11 +1,20 @@
 import os
+import utils
 import boto3
 from chalice import Chalice
 
-LCAccessKey = os.getenv('AWS_ACCESS_KEY_ID', 'TEST_KEY_ID')
-LCSecretKey = os.getenv('AWS_ACCESS_KEY_SECRET', 'TEST_KEY_SECRET')
-LCRegion = os.getenv('AWS_DEFAULT_REGION', 'TEST_REGION')
-LCEndpointURL = os.getenv('ENDPOINT', 'TEST_ENDPOINT_URL')
+source_prefix = ''
+config = utils.get_config("../config.json")
+source_bucket = config["aws"]["bucket_name"] #os.getenv('SOURCE_BUCKET', 'aws-bucket')
+target_bucket = config["lyvecloud"]["bucket_name"] #os.getenv('TARGET_BUCKET', 'lyvecloud-bucket')
+LCAccessKey = config["lyvecloud"]["aws_access_key_id"] #os.getenv('AWS_ACCESS_KEY_ID', 'TEST_KEY_ID')
+LCSecretKey = config["lyvecloud"]["aws_secret_access_key"] #os.getenv('AWS_ACCESS_KEY_SECRET', 'TEST_KEY_SECRET')
+LCRegion = config["lyvecloud"]["region_name"] #os.getenv('AWS_DEFAULT_REGION', 'TEST_REGION')
+LCEndpointURL = config["lyvecloud"]["endpoint_url"] #os.getenv('ENDPOINT', 'TEST_ENDPOINT_URL')
+
+# AWS
+sourceS3 = boto3.resource('s3')
+app = Chalice(app_name='syncer', debug=True)
 
 # Lyve Cloud
 s3_resource = boto3.resource(
@@ -24,12 +33,6 @@ s3_client = boto3.client(
     region_name=LCRegion,
     endpoint_url=LCEndpointURL
 )
-
-source_prefix = ''
-sourceS3 = boto3.resource('s3')
-app = Chalice(app_name='syncer', debug=True)
-source_bucket = os.getenv('SOURCE_BUCKET', 'aws-bucket')
-target_bucket = os.getenv('TARGET_BUCKET', 'lyvecloud-bucket')
 
 
 @app.on_s3_event(bucket=source_bucket, prefix=source_prefix, events=['s3:ObjectCreated:*'])
